@@ -3,6 +3,10 @@ import pytz
 
 # Create your models here.
 class Book(models.Model):
+    @property
+    def author(self):
+        return ', '.join([f"{author.first_name} {author.last_name}" for author in self.authors.all()])
+    
     COVERS = [
         ('hardcover', 'Hardcover'),
         ('paperback', 'Paperback'),

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Ewidencja biblioteczna</title>
+</head>
+<body class="bg-neutral-300">
+    <header class="bg-emerald-950 text-white p-4 text-center sticky top-0 w-full">
+        <h1 class="text-2xl font-bold">Ewidencja biblioteczna</h1>
+    </header>
+    <nav class="bg-emerald-800 text-white p-4">
+        <ul class="flex space-x-4">
+            <li><a href="{% url 'index' %}" class="hover:underline">Książki</a></li>
+            <li><a href="{% url 'authors' %}" class="hover:underline">Autorzy</a></li>
+            <li><a href="{% url 'publishers' %}" class="hover:underline">Wydawcy</a></li>
+            <li><a href="{% url 'series_list' %}" class="hover:underline">Serie</a></li>
+            <li><a href="{% url 'notes' %}" class="hover:underline">Notatki</a></li>
+        </ul>
+    </nav>
+    <main class="pb-16">
+        <h2 class="w-full bg-white rounded-lg shadow-md p-4 text-lg font-semibold text-center">{% block title %}{% endblock %}</h2>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer class="bg-emerald-950 text-white p-4 text-center fixed bottom-0 w-full">
+        &copy; 2026 Katarzyna Wójcik
+    </footer>
+</body>
+</html>
