@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Seria: {{ series.name }}</h1>
+<p>{{ series.description }}</p>
+<p><em>Posiadasz w bibliotece: <strong>{{ count }}</strong> książek z tej serii.</em></p>
+<h3>Książki w serii (posortowane chronologicznie):</h3>
+<ul>
+    {% for book in books %}<li><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a> ({{ book.publication_date }})</li>{% endfor %}
+</ul>
+{% endblock %}

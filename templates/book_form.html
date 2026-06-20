@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow mt-4">
+            <div class="card-header bg-primary text-white">
+                <h3 class="mb-0">{% if object %}Edytuj książkę{% else %}Dodaj nową książkę{% endif %}</h3>
+            </div>
+            <div class="card-body">
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success btn-lg">Zapisz książkę</button>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center">
+                <small>Wskazówka: Jeśli brakuje Autora lub Wydawcy na liście, dodaj ich najpierw w sekcji Słowniki.</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

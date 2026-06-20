@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Zarządzanie Słownikami</h1>
+<div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+    <div>
+        <h3>Autorzy (<a href="{% url 'author_add' %}">Dodaj</a>)</h3>
+        <ul>{% for a in authors %}<li>{{ a.first_name }} {{ a.last_name }} [<a href="{% url 'author_edit' a.id %}">E</a>|<a href="{% url 'author_delete' a.id %}">X</a>]</li>{% endfor %}</ul>
+    </div>
+    <div>
+        <h3>Wydawcy (<a href="{% url 'publisher_add' %}">Dodaj</a>)</h3>
+        <ul>{% for p in publishers %}<li>{{ p.name }} [<a href="{% url 'publisher_edit' p.id %}">E</a>|<a href="{% url 'publisher_delete' p.id %}">X</a>]</li>{% endfor %}</ul>
+    </div>
+    <div>
+        <h3>Serie (<a href="{% url 'series_add' %}">Dodaj</a>)</h3>
+        <ul>{% for s in series %}<li>{{ s.name }} [<a href="{% url 'series_edit' s.id %}">E</a>|<a href="{% url 'series_delete' s.id %}">X</a>]</li>{% endfor %}</ul>
+    </div>
+    <div>
+        <h3>Gatunki (<a href="{% url 'genre_add' %}">Dodaj</a>)</h3>
+        <ul>{% for g in genres %}<li>{{ g.name }} [<a href="{% url 'genre_edit' g.id %}">E</a>|<a href="{% url 'genre_delete' g.id %}">X</a>]</li>{% endfor %}</ul>
+    </div>
+    <div>
+        <h3>Tematy (<a href="{% url 'topic_add' %}">Dodaj</a>)</h3>
+        <ul>{% for t in topics %}<li>{{ t.name }} [<a href="{% url 'topic_edit' t.id %}">E</a>|<a href="{% url 'topic_delete' t.id %}">X</a>]</li>{% endfor %}</ul>
+    </div>
+</div>
+{% endblock %}

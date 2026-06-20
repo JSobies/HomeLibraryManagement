@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Formularz słownika</h2>
+<form method="post">{% csrf_token %}{{ form.as_p }}<button type="submit">Zapisz element</button></form>
+<br><a href="{% url 'dictionaries' %}">Anuluj i wróć do panelu</a>
+{% endblock %}

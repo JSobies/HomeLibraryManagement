@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ publisher.name }}</h1>
+<p><strong>Kraj:</strong> {{ publisher.get_country_display }} | <strong>Rok założenia:</strong> {{ publisher.founded_year }}</p>
+{% if publisher.website %}<p><strong>WWW:</strong> <a href="{{ publisher.website }}" target="_blank">{{ publisher.website }}</a></p>{% endif %}
+{% if publisher.email %}<p>📧 <a href="mailto:{{ publisher.email }}">Wyślij e-mail do wydawcy</a></p>{% endif %}
+<h3>Książki tego wydawnictwa:</h3>
+<ul>
+    {% for book in books %}<li><a href="{% url 'book_detail' book.id %}">{{ book.title }}</a></li>{% endfor %}
+</ul>
+{% endblock %}

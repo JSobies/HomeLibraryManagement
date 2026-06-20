@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header d-flex justify-content-between align-items-center bg-white">
+        <h2 class="mb-0">{{ book.title }}</h2>
+        <div>
+            {% if book.is_read %}<span class="badge bg-success fs-6">✔️ Przeczytana</span>{% else %}<span class="badge bg-secondary fs-6">Nieprzeczytana</span>{% endif %}
+            {% if book.is_favorite %}<span class="badge bg-danger fs-6">❤️ Ulubiona</span>{% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>ISBN:</strong> {{ book.isbn }}</li>
+                    <li class="list-group-item"><strong>Stron:</strong> {{ book.pages }}</li>
+                    <li class="list-group-item"><strong>Data publikacji:</strong> {{ book.publication_date }}</li>
+                    <li class="list-group-item"><strong>Okładka:</strong> {{ book.get_cover_display }}</li>
+                    <li class="list-group-item"><strong>Język:</strong> {{ book.get_language_display }}</li>
+                    <li class="list-group-item"><strong>Wydawca:</strong> <a href="{% url 'publisher_detail' book.publisher.id %}" class="text-decoration-none">{{ book.publisher.name }}</a></li>
+                    {% if book.series %}<li class="list-group-item"><strong>Seria:</strong> <a href="{% url 'series_detail' book.series.id %}" class="text-decoration-none">{{ book.series.name }}</a></li>{% endif %}
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <strong>Autorzy:</strong><br>
+                    {% for a in book.authors.all %}
+                        <a href="{% url 'author_detail' a.id %}" class="badge bg-primary text-decoration-none fs-6 mb-1">{{ a.first_name }} {{ a.last_name }}</a>
+                    {% endfor %}
+                </div>
+                <div class="mb-3">
+                    <strong>Gatunki:</strong><br>
+                    {% for g in book.genres.all %}<span class="badge bg-info text-dark mb-1">{{ g.name }}</span> {% endfor %}
+                </div>
+                <div class="mb-3">
+                    <strong>Tematy:</strong><br>
+                    {% for t in book.topics.all %}<span class="badge bg-secondary mb-1">{{ t.name }}</span> {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        {% if user.is_authenticated %}
+            <hr>
+            <div class="d-flex gap-2 flex-wrap">
+                <a href="{% url 'toggle_read' book.id %}" class="btn btn-outline-success">Zmień status przeczytania</a>
+                <a href="{% url 'toggle_favorite' book.id %}" class="btn btn-outline-danger">Zmień status ulubionej</a>
+                <a href="{% url 'book_edit' book.id %}" class="btn btn-warning">✏️ Edytuj</a>
+                <a href="{% url 'book_delete' book.id %}" class="btn btn-danger">🗑️ Usuń</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <h3>Notatki do książki</h3>
+        {% if user.is_authenticated %}
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body bg-light">
+                    <form action="{% url 'add_note' book.id %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit" class="btn btn-primary">Dodaj notatkę</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="alert alert-warning">Zaloguj się, aby dodawać notatki.</div>
+        {% endif %}
+
+        {% for note in notes %}
+            <div class="card mb-2 shadow-sm">
+                <div class="card-body">
+                    <p class="card-text">{{ note.content }}</p>
+                    <small class="text-muted">Dodano: {{ note.created_at|date:"d.m.Y H:i" }}</small>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-muted">Ta książka nie ma jeszcze żadnych notatek.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
